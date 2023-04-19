@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Ride</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+
+<body>
+    <div id="wrapper">
+        <div id="container">
+            <div id="header"></div>
+            <div id="content">
+                <div class="xlg_col">
+                    <div class="nav">
+                        <h1>Add a Ride</h1>
+                        <div>
+                            <a href="/dashboard">Back to Rides</a>
+                            <a href="/logout">Logout</a>
+                        </div>
+                    </div>
+                    <form action="/add/ride" method="POST">
+                        <fieldset class="form">
+                            <legend>Add a new ride</legend>
+                            <input type="hidden" name="rider_id" value="{{session['user_id']}}">
+                            <label for="destination">Destination:</label>
+                            <input type="text" name="destination" id="destination">
+                            <br>
+                            <label for="pick_up_location">Pick Up Location:</label>
+                            <br>
+                            <input type="text" name="pick_up_location" id="pick_up_location" cols="90" rows="3">
+                            <br>
+                            <label for="rideshare_date">Pick Up Date:</label>
+                            <br>
+                            <input type="date" name="rideshare_date" id="rideshare_date">
+                            <br>
+                            <label for="details">Details:</label>
+                            <br>
+                            <textarea name="details" id="details" cols="30" rows="10"></textarea>
+                            <br>
+                            <input class="submit" type="submit" value="Post">
+                            {% with messages = get_flashed_messages(category_filter=["create"]) %}
+                            {% if messages %}
+                            {% for message in messages %}
+                            <p class="error">{{message}}</p>
+                            {% endfor %}
+                            {% endif %}
+                            {% endwith %}
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

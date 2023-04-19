@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ride Details</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="container">
+            <div id="header"></div>
+            <div id="content">
+                <div class="xlg_col">
+                    <div class="nav">
+                        <h1>Ready for your trip to {{ride.destination}}?</h1>
+                        <div>
+                            <a href="/dashboard">Back to Rides</a>
+                            <a href="/logout">Logout</a>
+                        </div>
+                    </div>
+                    <fieldset>
+                        <table>
+                            <tr>
+                                <td>
+                                    <h3>Whos driving:</h3>
+                                </td>
+                                <td>{% if ride.driver_id == session['user_id']%}
+                                    <p>You</p>
+                                    {%else%}
+                                    {{ride.driver.first_name}}
+                                    {%endif%}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h3>Who is coming along:</h3>
+                                </td>
+                                <td>{% if ride.rider_id == session['user_id']%}
+                                    <p>You</p>
+                                    {%else%}
+                                    {{ride.rider.first_name}}</td>
+                                    {%endif%}
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h3>Date:</h3>
+                                </td>
+                                <td>
+                                    {{ride.rideshare_date}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h3>Pick up Location:</h3>
+                                </td>
+                                <td>{{ride.pick_up_location}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h3>Details:</h3>
+                                </td>
+                                <td>{{ride.details}}</td>
+                            </tr>
+                        </table>
+                        <a href="/edit/{{ride.id}}">Edit</a> | 
+                        {% if ride.rider_id == session['user_id'] %}
+                        <a href="/delete/{{ride.id}}">Delete</a>
+                        {%else%}
+                        <a href="/cancel/{{ride.id}}">Cancel</a>
+                        {%endif%}
+                    </fieldset>
+                    <h2>Ride Messages:</h2>
+                    <fieldset>
+                        <table>
+                            {% for message in messages %}
+                            <tr>
+                                <td><h3>{{message.author.first_name}}:</h3></td>
+                                <td>{{message.message}}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                        <form action="/message" method="post">
+                            <input type="hidden" name="author_id" value="{{session['user_id']}}">
+                            <input type="hidden" name="ride_id" value="{{ride.id}}">
+                            <input type="text" name="message" id="message">
+                            <input type="submit" value="Send Message">
+                        </form>
+
+                    </fieldset>
+                </div>
+            </div>
+            <div id="footer">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

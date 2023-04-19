@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Ride</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+
+<body>
+    <div id="wrapper">
+        <div id="container">
+            <div id="header"></div>
+            <div id="content">
+                <div class="xlg_col">
+                    <div class="nav">
+                        <h1>Edit your Ride</h1>
+                        <div>
+                            <a href="/dashboard">Back to Rides</a>
+                            <a href="/logout">Logout</a>
+                        </div>
+                    </div>
+                    <form action="/edit/process" method="POST">
+                        <fieldset class="form">
+                            <legend>Edit  your ride to {{ride.destination}}</legend>
+                            <input type="hidden" name="id" value="{{ride.id}}">
+                            <label for="pick_up_location">Pick Up Location:</label>
+                            <br>
+                            <input type="text" name="pick_up_location" id="pick_up_location" value="{{ride.pick_up_location}}">
+                            <br>
+                            <label for="details">Details:</label>
+                            <br>
+                            <textarea name="details" id="details" cols="30" rows="10">{{ride.details}}</textarea>
+                            <br>
+                            <input class="submit" type="submit" value="Post">
+                            {% with messages = get_flashed_messages(category_filter=["create"]) %}
+                            {% if messages %}
+                            {% for message in messages %}
+                            <p class="error">{{message}}</p>
+                            {% endfor %}
+                            {% endif %}
+                            {% endwith %}
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div id="footer"></div>
+        </div>
+    </div>
+</body>
+
+</html>

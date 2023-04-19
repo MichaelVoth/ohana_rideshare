@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="container">
+            <div id="header"></div>
+            <div id="content">
+                <div class="xlg_col">
+                    <div class="nav">
+                        <h1>Welcome! {{user.first_name}}!</h1>
+                        <div>
+                            <a href="/create">+ Request Ride</a>
+                            <a href="/logout">Logout</a>
+                        </div>
+                    </div>
+
+                    <div class="flex">
+                        <div class="col">
+                            <h2>Rideshare Requests</h2>
+                            {% for a_ride in driverless_rides: %}
+                            <fieldset>
+                                <p>Rider: {{a_ride.rider.first_name}}</p>
+                                <p>Destination: {{a_ride.destination}}</p>
+                                <p>When Needed: {{a_ride.rideshare_date}}</p>
+                                {% if a_ride.rider_id == session['user_id']%}
+                                <a href="/delete/{{a_ride.id}}">Delete</a>
+                                {%else%}
+                                <form action="/add/driver" method="post">
+                                    <input type="hidden" name="id" value="{{ a_ride.id }}">
+                                    <input type="submit" value="I can Drive!">
+                                </form>
+                                {%endif%}
+                            </fieldset>
+                            {%endfor%}
+                        </div>
+                        <div class="col">
+                            <h2>Booked Rideshares</h2>
+                            {% for a_ride in rides %}
+                            <fieldset>
+                                <p>{{a_ride.driver.first_name}} is driving {{a_ride.rider.first_name}}.</p>
+                                <p> to {{a_ride.destination}} on {{a_ride.rideshare_date}}</p>
+                                {% if a_ride.driver_id == session['user_id']%}
+                                    <a href="/show/{{a_ride.id}}">Details</a> | <a href="/cancel/{{a_ride.id}}">Cancel</a>
+                                {%endif%}
+                                {% if a_ride.rider_id == session['user_id']%}
+                                <a href="/show/{{a_ride.id}}">Details</a>
+                                {%endif%}
+                            </fieldset>
+                            {%endfor%}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="footer">
+            </div>
+        </div>
+</body>
+
+</html>
