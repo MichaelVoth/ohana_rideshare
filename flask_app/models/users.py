@@ -25,18 +25,18 @@ class User:
     @staticmethod
     def validate_user(user):
         is_valid = True
-        if not len(user['first_name']) >= 3 and str.isalpha(user['first_name']):
+        if not len(user['first_name']) >= 3 or not str.isalpha(user['first_name']):
             flash(
                 "First name must be at least 2 characters and contain only letters.", 'register')
             is_valid = False
-        if not len(user['last_name']) >= 3 and str.isalpha(user['last_name']):
+        if not len(user['last_name']) >= 3 or not str.isalpha(user['last_name']):
             flash(
                 "Last name must be at least 2 characters and contain only letters.", 'register')
             is_valid = False
         if not EMAIL_REGEX.match(user['email']):
             flash("Invalid email address!", 'register')
             is_valid = False
-        if not len(user['password']) >= 9 and str.isalnum(user['password']):
+        if not len(user['password']) >= 9:
             flash('Invalid password. Must contain at least 8 characters.', 'register')
             is_valid = False
         if not str.isalpha(user['password']) == False:
